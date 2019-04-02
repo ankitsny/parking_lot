@@ -29,7 +29,7 @@ func CreateParkingLot(lotID, address string, capacity int) (*ParkingLot, error) 
 		address:       "Bangalore HSR",
 		hasEmptySpace: true,
 		lotID:         "LOT_1",
-		nextSpot:      0,
+		nextSpot:      1,
 		capacity:      capacity,
 		parkingSpots:  parkingSpots,
 	}
@@ -38,6 +38,10 @@ func CreateParkingLot(lotID, address string, capacity int) (*ParkingLot, error) 
 
 // TODO: we can pass vehicle size in params to incorporate the vehicle size feature
 func (pl *ParkingLot) getNearestParkingSpot() (int, error) {
-
-	return 0, nil
+	for i, spot := range pl.parkingSpots {
+		if spot.GetVehicle() == nil {
+			return i + 1, nil
+		}
+	}
+	return 0, errors.New("There is no parking spot available")
 }

@@ -176,6 +176,9 @@ func TestParkingLot_GetNearestParkingSpot(t *testing.T) {
 }
 
 func TestParkingLot_GetParkingSpotByVehicleNo(t *testing.T) {
+	parkingSpot := generateParingSpot("SM", 1, "0")
+	vehicle := CreateVehicle("Red", "KA-51EZ-1234", "SM")
+	(parkingSpot[0]).vehicle = vehicle
 	type fields struct {
 		lotID         string
 		address       string
@@ -194,7 +197,34 @@ func TestParkingLot_GetParkingSpotByVehicleNo(t *testing.T) {
 		want    *ParkingSpot
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "A vehicle is parked",
+			fields: fields{
+				address:       "Bangalore",
+				capacity:      1,
+				hasEmptySpace: false,
+				parkingSpots:  parkingSpot,
+			},
+			args: args{
+				vNo: "KA-51EZ-1234",
+			},
+			want:    parkingSpot[0],
+			wantErr: false,
+		},
+		{
+			name: "A vehicle is not parked",
+			fields: fields{
+				address:       "Bangalore",
+				capacity:      1,
+				hasEmptySpace: false,
+				parkingSpots:  parkingSpot,
+			},
+			args: args{
+				vNo: "KA-51EZ-0001",
+			},
+			want:    nil,
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -81,6 +81,7 @@ func TestParkingSpot_GetVehicle(t *testing.T) {
 }
 
 func TestParkingSpot_ParkVehicle(t *testing.T) {
+	parkingTime := time.Now()
 	type fields struct {
 		size        string
 		spotNo      int
@@ -96,7 +97,20 @@ func TestParkingSpot_ParkVehicle(t *testing.T) {
 		fields fields
 		args   args
 	}{
-		// TODO: Add test cases.
+		{
+			name: "Park Vehicle",
+			fields: fields{
+				level:       "0",
+				parkingTime: &parkingTime,
+				size:        "SM",
+				spotNo:      1,
+				vehicle: &Vehicle{
+					color:     "Red",
+					size:      "SM",
+					vehicleNo: "KA-51EZ-1234",
+				},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

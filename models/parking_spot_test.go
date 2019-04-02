@@ -53,7 +53,16 @@ func TestParkingSpot_GetVehicle(t *testing.T) {
 		fields fields
 		want   *Vehicle
 	}{
-		// TODO: Add test cases.
+		{
+			name: "ParkingSpot_GetVehicle",
+			fields: fields{
+				level:       "0",
+				spotNo:      1,
+				vehicle:     nil,
+				parkingTime: nil,
+			},
+			want: nil,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

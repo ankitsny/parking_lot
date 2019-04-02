@@ -20,6 +20,18 @@ func CreateParkingLot(lotID, address string, size int) (*ParkingLot, error) {
 		return nil, errors.New("Invalid Parking Spot Aize")
 	}
 
-	return nil, nil
+	var parkingSpots []*ParkingSpot
 
+	for i := 0; i < size; i++ {
+		parkingSpots = append(parkingSpots, NewEmptyParkingSpot("SM", i+1, "0"))
+	}
+	pl := &ParkingLot{
+		address:       "Bangalore HSR",
+		hasEmptySpace: true,
+		lotID:         "LOT_1",
+		nextSpot:      0,
+		size:          size,
+		parkingSpots:  parkingSpots,
+	}
+	return pl, nil
 }

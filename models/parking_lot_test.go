@@ -6,6 +6,8 @@ import (
 )
 
 func TestCreateParkingLot(t *testing.T) {
+	var parkingSpots []*ParkingSpot
+	parkingSpots = append(parkingSpots, NewEmptyParkingSpot("SM", 1, "0"))
 	type args struct {
 		lotID   string
 		address string
@@ -26,6 +28,23 @@ func TestCreateParkingLot(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: true,
+		},
+		{
+			name: "With valid inputs",
+			args: args{
+				address: "Bangalore HSR",
+				size:    1,
+				lotID:   "LOT_1",
+			},
+			want: &ParkingLot{
+				address:       "Bangalore HSR",
+				size:          1,
+				lotID:         "LOT_1",
+				hasEmptySpace: true,
+				nextSpot:      0,
+				parkingSpots:  parkingSpots,
+			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {

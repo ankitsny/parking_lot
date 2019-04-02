@@ -204,3 +204,45 @@ func TestOperationManager_Execute(t *testing.T) {
 		})
 	}
 }
+
+func TestOperationManager_AddOperation(t *testing.T) {
+	fCMD := &fakecmd{
+		CmdName:  "create_parking_lot",
+		capacity: 6,
+	}
+	type fields struct {
+		cOp      string
+		argVal   string
+		commands map[string]ICommand
+	}
+	type args struct {
+		cmd ICommand
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+	}{
+		{
+			name: "AddOperation",
+			fields: fields{
+				argVal:   "6",
+				cOp:      "create_parking_lot",
+				commands: map[string]ICommand{"create_parking_lot": fCMD},
+			},
+			args: args{
+				cmd: fCMD,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			opm := &OperationManager{
+				cOp:      tt.fields.cOp,
+				argVal:   tt.fields.argVal,
+				commands: tt.fields.commands,
+			}
+			opm.AddOperation(tt.args.cmd)
+		})
+	}
+}

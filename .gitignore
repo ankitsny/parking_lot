@@ -6,3 +6,6 @@ github.com/
 
 
 todo
+
+*.out
+*.html

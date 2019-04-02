@@ -17,7 +17,16 @@ func TestCreateParkingLot(t *testing.T) {
 		want    *ParkingLot
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "Check for invalid size",
+			args: args{
+				address: "",
+				size:    0,
+				lotID:   "LOT_1",
+			},
+			want:    nil,
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

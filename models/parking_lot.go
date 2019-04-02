@@ -62,6 +62,11 @@ func (pl *ParkingLot) GetParkingSpotByVehicleNo(vNo string) (*ParkingSpot, error
 // if the vehicle is not parked with given color in the parking lot then returns error
 func (pl *ParkingLot) GetParkingSpotByColor(color string) ([]*ParkingSpot, error) {
 	var spots []*ParkingSpot
+	for _, spot := range pl.parkingSpots {
+		if spot.GetVehicle().GetColor() == color {
+			spots = append(spots, spot)
+		}
+	}
 
 	return spots, nil
 }

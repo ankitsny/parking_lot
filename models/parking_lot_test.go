@@ -249,6 +249,9 @@ func TestParkingLot_GetParkingSpotByVehicleNo(t *testing.T) {
 }
 
 func TestParkingLot_GetParkingSpotByColor(t *testing.T) {
+	parkingSpot := generateParingSpot("SM", 1, "0")
+	vehicle := CreateVehicle("Red", "KA-51EZ-1234", "SM")
+	(parkingSpot[0]).vehicle = vehicle
 	type fields struct {
 		lotID         string
 		address       string
@@ -267,7 +270,17 @@ func TestParkingLot_GetParkingSpotByColor(t *testing.T) {
 		want    []*ParkingSpot
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "A Vehicle is parked and the color is Red",
+			fields: fields{
+				parkingSpots: parkingSpot,
+			},
+			args: args{
+				color: "Red",
+			},
+			want:    parkingSpot,
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

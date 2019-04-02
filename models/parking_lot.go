@@ -36,12 +36,24 @@ func CreateParkingLot(lotID, address string, capacity int) (*ParkingLot, error) 
 	return pl, nil
 }
 
+// GetNearestParkingSpot :
 // TODO: we can pass vehicle size in params to incorporate the vehicle size feature
-func (pl *ParkingLot) getNearestParkingSpot() (int, error) {
+func (pl *ParkingLot) GetNearestParkingSpot() (int, error) {
 	for i, spot := range pl.parkingSpots {
 		if spot.GetVehicle() == nil {
 			return i + 1, nil
 		}
 	}
 	return 0, errors.New("There is no parking spot available")
+}
+
+// GetParkingSpotByVehicleNo : this method returns the parking spot object based in vehicle no
+// if the vehicle is not parked in the parking lot then returns error
+func (pl *ParkingLot) GetParkingSpotByVehicleNo(vNo string) (*ParkingSpot, error) {
+	for _, spot := range pl.parkingSpots {
+		if spot.GetVehicle().GetVehicleNo() == vNo {
+			return spot, nil
+		}
+	}
+	return nil, errors.New("Vehicle is not parked in this parking lot :(")
 }

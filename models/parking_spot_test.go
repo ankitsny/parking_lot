@@ -138,7 +138,16 @@ func TestParkingSpot_VackateVehicle(t *testing.T) {
 		name   string
 		fields fields
 	}{
-		// TODO: Add test cases.
+		{
+			name: "vackate Vehicle",
+			fields: fields{
+				level:       "0",
+				parkingTime: nil,
+				size:        "SM",
+				spotNo:      1,
+				vehicle:     &Vehicle{},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -150,6 +159,9 @@ func TestParkingSpot_VackateVehicle(t *testing.T) {
 				level:       tt.fields.level,
 			}
 			ps.VackateVehicle()
+			if ps.vehicle != nil {
+				t.Errorf("ParkingSpot.vehicle = %v, want %v", ps.vehicle, "nil")
+			}
 		})
 	}
 }

@@ -41,8 +41,7 @@ func (cpl *CreateParkingLot) Execute(argVal string) string {
 	if err := cpl.Parse(argVal); err != nil {
 		return "Invalid arguments"
 	}
-	if err := store.NewStore(cpl.capacity); err != nil {
-		return "Invalid parking lot size"
-	}
+	store.NewStore(cpl.capacity)
+
 	return fmt.Sprintf("Created a parking lot with %v slots", cpl.capacity)
 }

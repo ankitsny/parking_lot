@@ -94,6 +94,11 @@ func (fcmd *fakecmd) Execute(argsVal string) (string, error) {
 	return fmt.Sprintf("Created a parking lot with %v slots", fcmd.capacity), nil
 }
 
+// GetName :
+func (fcmd *fakecmd) GetName() string {
+	return fcmd.CmdName
+}
+
 // Execute :
 func (fcmd *fakecmd) Parse(argsVal string) error {
 	if argsVal == "" {

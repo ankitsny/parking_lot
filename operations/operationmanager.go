@@ -14,13 +14,21 @@ type OperationManager struct {
 
 // NewOperationManager :
 func NewOperationManager() *OperationManager {
-	return &OperationManager{}
+	opm := &OperationManager{}
+
+	return opm
 }
 
 // IOperation :
 type IOperation interface {
 	Parse(input string) error
 	Execute() (string, error)
+	AddOperation(ICommand)
+}
+
+// AddOperation :
+func (opm *OperationManager) AddOperation(cmd ICommand) {
+	opm.commands[cmd.GetName()] = cmd
 }
 
 // Parse :

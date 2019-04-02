@@ -9,6 +9,15 @@ type Vehicle struct {
 	size string // stores the vehicle size
 }
 
+// CreateVehicle : create a new vehicle
+func CreateVehicle(color, vehicleNo, size string) *Vehicle {
+	return &Vehicle{
+		color:     color,
+		vehicleNo: vehicleNo,
+		size:      size,
+	}
+}
+
 // GetColor : returns color of the vehicle
 func (v *Vehicle) GetColor() string {
 	return v.color

@@ -16,7 +16,20 @@ func TestNewStore(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "new store[invalid]",
+			args: args{
+				capacity: 0,
+			},
+			wantErr: true,
+		},
+		{
+			name: "new store[valid]",
+			args: args{
+				capacity: 1,
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -28,11 +41,16 @@ func TestNewStore(t *testing.T) {
 }
 
 func TestGetStorage(t *testing.T) {
+	NewStore(1)
+	pLot, _ := models.CreateParkingLot("LOT_1", "Bangalore", 1)
 	tests := []struct {
 		name string
 		want *models.ParkingLot
 	}{
-		// TODO: Add test cases.
+		{
+			name: "get storage",
+			want: pLot,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

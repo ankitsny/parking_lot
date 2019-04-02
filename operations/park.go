@@ -37,7 +37,7 @@ func (p *Park) Parse(argVal string) error {
 	}
 	p.vehicleNo = args[0]
 	p.color = args[1]
-
+	return nil
 	// return fmt.Sprintf("Created a parking lot with %v slots", cpl.capacity)
 }
 
@@ -50,5 +50,5 @@ func (p *Park) Execute(argVal string) string {
 	if err != nil {
 		return "Sorry, parking lot is full" // TODO: pass proper error
 	}
-	return fmt.Sprintf("Allocated slot number: %v")
+	return fmt.Sprintf("Allocated slot number: %v", slot.GetParkingSpotNo())
 }

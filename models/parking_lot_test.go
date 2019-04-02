@@ -60,3 +60,40 @@ func TestCreateParkingLot(t *testing.T) {
 		})
 	}
 }
+
+func TestParkingLot_getNearestParkingSpot(t *testing.T) {
+	type fields struct {
+		lotID         string
+		address       string
+		parkingSpots  []*ParkingSpot
+		capacity      int
+		nextSpot      int
+		hasEmptySpace bool
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		want    int
+		wantErr bool
+	}{}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			pl := &ParkingLot{
+				lotID:         tt.fields.lotID,
+				address:       tt.fields.address,
+				parkingSpots:  tt.fields.parkingSpots,
+				capacity:      tt.fields.capacity,
+				nextSpot:      tt.fields.nextSpot,
+				hasEmptySpace: tt.fields.hasEmptySpace,
+			}
+			got, err := pl.getNearestParkingSpot()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ParkingLot.getNearestParkingSpot() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("ParkingLot.getNearestParkingSpot() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

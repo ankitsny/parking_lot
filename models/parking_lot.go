@@ -35,3 +35,9 @@ func CreateParkingLot(lotID, address string, capacity int) (*ParkingLot, error) 
 	}
 	return pl, nil
 }
+
+// TODO: we can pass vehicle size in params to incorporate the vehicle size feature
+func (pl *ParkingLot) getNearestParkingSpot() (int, error) {
+
+	return 0, nil
+}

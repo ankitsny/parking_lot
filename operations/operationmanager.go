@@ -1,15 +1,20 @@
 package operations
 
-// Operation :
-type Operation struct {
-	cOp      string                 // current operations
-	argVal   string                 // current args
-	commands map[string]interface{} // map of commands
+import (
+	"errors"
+	"strings"
+)
+
+// OperationManager :
+type OperationManager struct {
+	cOp      string              // current operations
+	argVal   string              // current args
+	commands map[string]ICommand // map of commands
 }
 
-// NewOperation :
-func NewOperation() IOperation {
-	return &Operation{}
+// NewOperationManager :
+func NewOperationManager() *OperationManager {
+	return &OperationManager{}
 }
 
 // IOperation :
@@ -19,15 +24,27 @@ type IOperation interface {
 }
 
 // Parse :
-func (op *Operation) Parse(input string) error {
-	// TODO: implement parse method
-	op.cOp = "SOME COmmand"
-	op.argVal = "SOME Arguments"
+func (opm *OperationManager) Parse(input string) error {
+	if input == "" {
+		return errors.New("Input args missing")
+	}
+	argsArray := strings.Fields(input)
+	opm.cOp = argsArray[0]
+	if len(argsArray) == 2 {
+		opm.argVal = argsArray[1]
+	}
 	return nil
 }
 
 // Execute :
-func (op *Operation) Execute() (string, error) {
+func (opm *OperationManager) Execute(input string) (string, error) {
 	// TODO: implement this method
-	return "", nil
+	if err := opm.Parse(input); err != nil {
+		return "", err
+	}
+	cmd, ok := opm.commands[opm.cOp]
+	if !ok {
+		return "", errors.New("Invalid Operation")
+	}
+	return cmd.Execute(opm.argVal)
 }

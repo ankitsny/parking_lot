@@ -314,3 +314,82 @@ func TestParkingLot_GetParkingSpotByColor(t *testing.T) {
 		})
 	}
 }
+
+func TestParkingLot_Park(t *testing.T) {
+	parkingSpot := generateParingSpot("SM", 1, "0")
+	// vehicle := CreateVehicle("Red", "KA-51EZ-1234", "SM")
+	// (parkingSpot[0]).vehicle = vehicle
+	parkingSpotAfterParked := generateParingSpot("SM", 1, "0")
+	vehicle := CreateVehicle("Red", "KA-51EZ-1234", "SM")
+	(parkingSpotAfterParked[0]).vehicle = vehicle
+	type fields struct {
+		lotID         string
+		address       string
+		parkingSpots  []*ParkingSpot
+		capacity      int
+		nextSpot      int
+		hasEmptySpace bool
+	}
+	type args struct {
+		vehicleNo string
+		color     string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *ParkingSpot
+		wantErr bool
+	}{
+		{
+			name: "Park[valid]",
+			fields: fields{
+				address:      "Bangalore",
+				capacity:     1,
+				lotID:        "LOT_1",
+				parkingSpots: parkingSpot,
+			},
+			args: args{
+				color:     "Red",
+				vehicleNo: "KA-51EZ-1234",
+			},
+			want:    parkingSpotAfterParked[0],
+			wantErr: false,
+		},
+		{
+			name: "Park[invalid]",
+			fields: fields{
+				address:      "Bangalore",
+				capacity:     1,
+				lotID:        "LOT_1",
+				parkingSpots: parkingSpotAfterParked,
+			},
+			args: args{
+				color:     "Red",
+				vehicleNo: "KA-51EZ-1234",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			pl := &ParkingLot{
+				lotID:         tt.fields.lotID,
+				address:       tt.fields.address,
+				parkingSpots:  tt.fields.parkingSpots,
+				capacity:      tt.fields.capacity,
+				nextSpot:      tt.fields.nextSpot,
+				hasEmptySpace: tt.fields.hasEmptySpace,
+			}
+			got, err := pl.Park(tt.args.vehicleNo, tt.args.color)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ParkingLot.Park() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ParkingLot.Park() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

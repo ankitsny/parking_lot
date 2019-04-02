@@ -31,6 +31,11 @@ func (ps *ParkingSpot) ParkVehicle(v *Vehicle) {
 	ps.vehicle = v
 }
 
+// GetParkingSpotNo :
+func (ps *ParkingSpot) GetParkingSpotNo() int {
+	return ps.spotNo
+}
+
 // VackateVehicle : parks a vehice the spot
 func (ps *ParkingSpot) VackateVehicle() {
 	// TODO: Before vacating make a backup some where

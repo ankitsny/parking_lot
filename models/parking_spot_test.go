@@ -165,3 +165,42 @@ func TestParkingSpot_VackateVehicle(t *testing.T) {
 		})
 	}
 }
+
+func TestParkingSpot_GetParkingSpotNo(t *testing.T) {
+	type fields struct {
+		size        string
+		spotNo      int
+		vehicle     *Vehicle
+		parkingTime *time.Time
+		level       string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   int
+	}{
+		{
+			name: "Spot no",
+			fields: fields{
+				level:  "0",
+				size:   "SM",
+				spotNo: 1,
+			},
+			want: 1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ps := &ParkingSpot{
+				size:        tt.fields.size,
+				spotNo:      tt.fields.spotNo,
+				vehicle:     tt.fields.vehicle,
+				parkingTime: tt.fields.parkingTime,
+				level:       tt.fields.level,
+			}
+			if got := ps.GetParkingSpotNo(); got != tt.want {
+				t.Errorf("ParkingSpot.GetParkingSpotNo() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

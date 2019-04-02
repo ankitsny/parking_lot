@@ -72,3 +72,13 @@ func (pl *ParkingLot) GetParkingSpotByColor(color string) ([]*ParkingSpot, error
 	}
 	return spots, nil
 }
+
+// Park :
+func (pl *ParkingLot) Park(vehicleNo string, color string) (*ParkingSpot, error) {
+	i, err := pl.GetNearestParkingSpot()
+	if err != nil {
+		return nil, err
+	}
+	pl.parkingSpots[i-1].ParkVehicle(CreateVehicle(color, vehicleNo, "SM"))
+	return pl.parkingSpots[i-1], nil
+}

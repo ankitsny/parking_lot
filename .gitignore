@@ -1,3 +1,5 @@
-parkingLot
+# ignore build file
+parking_lot 
 
+# ignore deps from github
 github.com/

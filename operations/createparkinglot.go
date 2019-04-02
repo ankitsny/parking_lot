@@ -1,5 +1,12 @@
 package operations
 
+import (
+	"fmt"
+	"strconv"
+
+	"github.com/anks333/parking_lot/store"
+)
+
 // CreateParkingLot :
 // this struct should implement ICommand interface
 type CreateParkingLot struct {
@@ -17,4 +24,25 @@ func NewCreateParkingLot() *CreateParkingLot {
 // GetName :
 func (cpl *CreateParkingLot) GetName() string {
 	return cpl.opName
+}
+
+// Parse :
+func (cpl *CreateParkingLot) Parse(argVal string) error {
+	num, err := strconv.Atoi(argVal)
+
+	cpl.capacity = num
+
+	return err
+	// return fmt.Sprintf("Created a parking lot with %v slots", cpl.capacity)
+}
+
+// Execute :
+func (cpl *CreateParkingLot) Execute(argVal string) string {
+	if err := cpl.Parse(argVal); err != nil {
+		return "Invalid arguments"
+	}
+	if err := store.NewStore(cpl.capacity); err != nil {
+		return "Invalid parking lot size"
+	}
+	return fmt.Sprintf("Created a parking lot with %v slots", cpl.capacity)
 }

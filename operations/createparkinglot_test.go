@@ -56,3 +56,47 @@ func TestCreateParkingLot_GetName(t *testing.T) {
 		})
 	}
 }
+
+func TestCreateParkingLot_Parse(t *testing.T) {
+	type fields struct {
+		opName   string
+		capacity int
+	}
+	type args struct {
+		argVal string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		wantErr bool
+	}{
+		{
+			name:   "parse[valid]",
+			fields: fields{},
+			args: args{
+				argVal: "6",
+			},
+			wantErr: false,
+		},
+		{
+			name:   "parse[invalid]",
+			fields: fields{},
+			args: args{
+				argVal: "6a",
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cpl := &CreateParkingLot{
+				opName:   tt.fields.opName,
+				capacity: tt.fields.capacity,
+			}
+			if err := cpl.Parse(tt.args.argVal); (err != nil) != tt.wantErr {
+				t.Errorf("CreateParkingLot.Parse() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

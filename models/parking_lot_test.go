@@ -281,6 +281,17 @@ func TestParkingLot_GetParkingSpotByColor(t *testing.T) {
 			want:    parkingSpot,
 			wantErr: false,
 		},
+		{
+			name: "A Vehicle is not parked with the given color",
+			fields: fields{
+				parkingSpots: parkingSpot,
+			},
+			args: args{
+				color: "Black",
+			},
+			want:    nil,
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

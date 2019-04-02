@@ -67,6 +67,8 @@ func (pl *ParkingLot) GetParkingSpotByColor(color string) ([]*ParkingSpot, error
 			spots = append(spots, spot)
 		}
 	}
-
+	if len(spots) == 0 {
+		return nil, errors.New(color + " Color Vehicle is not parked in this parking lot :(")
+	}
 	return spots, nil
 }

@@ -3,6 +3,8 @@ package operations
 import (
 	"errors"
 	"strings"
+
+	"github.com/anks333/parking_lot/store"
 )
 
 // OperationManager :
@@ -61,6 +63,10 @@ func (opm *OperationManager) Execute(input string) string {
 	cmd, ok := opm.commands[opm.cOp]
 	if !ok {
 		return "Invalid Operation"
+	}
+
+	if opm.cOp != "create_parking_lot" && store.GetStorage() == nil {
+		return "Parking lot is not created"
 	}
 	return cmd.Execute(opm.argVal)
 }

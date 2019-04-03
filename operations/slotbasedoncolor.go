@@ -3,6 +3,7 @@ package operations
 import (
 	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/anks333/parking_lot/store"
@@ -50,7 +51,7 @@ func (rbc *SlotNoBasedOnColor) Execute(argVal string) string {
 	}
 	var out []string
 	for _, slot := range slots {
-		out = append(out, slot.GetVehicle().GetVehicleNo())
+		out = append(out, strconv.Itoa(slot.GetParkingSpotNo()))
 	}
 	return strings.Join(out, ", ")
 }

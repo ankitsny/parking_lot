@@ -7,31 +7,31 @@ import (
 	"github.com/anks333/parking_lot/store"
 )
 
-func TestNewSlotNoBasedOnColorCMD(t *testing.T) {
+func TestNewSlotNoBasedOnRegNoCMD(t *testing.T) {
 	tests := []struct {
 		name string
-		want *SlotNoBasedOnColor
+		want *SlotNoBasedOnRegNo
 	}{
 		{
-			name: "slot_numbers_for_cars_with_colour CMD",
-			want: &SlotNoBasedOnColor{
-				opName: "slot_numbers_for_cars_with_colour",
+			name: "slot_number_for_registration_number CMD",
+			want: &SlotNoBasedOnRegNo{
+				opName: "slot_number_for_registration_number",
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewSlotNoBasedOnColorCMD(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewSlotNoBasedOnColorCMD() = %v, want %v", got, tt.want)
+			if got := NewSlotNoBasedOnRegNoCMD(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewSlotNoBasedOnRegNoCMD() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestSlotNoBasedOnColor_GetName(t *testing.T) {
+func TestSlotNoBasedOnRegNo_GetName(t *testing.T) {
 	type fields struct {
-		opName string
-		color  string
+		opName    string
+		vehicleNo string
 	}
 	tests := []struct {
 		name   string
@@ -41,29 +41,29 @@ func TestSlotNoBasedOnColor_GetName(t *testing.T) {
 		{
 			name: "Get Name",
 			fields: fields{
-				color:  "Red",
-				opName: "slot_numbers_for_cars_with_colour",
+				vehicleNo: "Red",
+				opName:    "slot_number_for_registration_number",
 			},
-			want: "slot_numbers_for_cars_with_colour",
+			want: "slot_number_for_registration_number",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			rbc := &SlotNoBasedOnColor{
-				opName: tt.fields.opName,
-				color:  tt.fields.color,
+			rbc := &SlotNoBasedOnRegNo{
+				opName:    tt.fields.opName,
+				vehicleNo: tt.fields.vehicleNo,
 			}
 			if got := rbc.GetName(); got != tt.want {
-				t.Errorf("SlotNoBasedOnColor.GetName() = %v, want %v", got, tt.want)
+				t.Errorf("SlotNoBasedOnRegNo.GetName() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestSlotNoBasedOnColor_Parse(t *testing.T) {
+func TestSlotNoBasedOnRegNo_Parse(t *testing.T) {
 	type fields struct {
-		opName string
-		color  string
+		opName    string
+		vehicleNo string
 	}
 	type args struct {
 		argVal string
@@ -77,17 +77,17 @@ func TestSlotNoBasedOnColor_Parse(t *testing.T) {
 		{
 			name: "Parse",
 			fields: fields{
-				opName: "slot_numbers_for_cars_with_colour",
+				opName: "slot_number_for_registration_number",
 			},
 			args: args{
-				argVal: "Red",
+				argVal: "KA-51EZ-1234",
 			},
 			wantErr: false,
 		},
 		{
 			name: "Parse[invalid]",
 			fields: fields{
-				opName: "slot_numbers_for_cars_with_colour",
+				opName: "slot_number_for_registration_number",
 			},
 			args: args{
 				argVal: "",
@@ -97,23 +97,23 @@ func TestSlotNoBasedOnColor_Parse(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			rbc := &SlotNoBasedOnColor{
-				opName: tt.fields.opName,
-				color:  tt.fields.color,
+			rbc := &SlotNoBasedOnRegNo{
+				opName:    tt.fields.opName,
+				vehicleNo: tt.fields.vehicleNo,
 			}
 			if err := rbc.Parse(tt.args.argVal); (err != nil) != tt.wantErr {
-				t.Errorf("SlotNoBasedOnColor.Parse() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("SlotNoBasedOnRegNo.Parse() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func TestSlotNoBasedOnColor_Execute(t *testing.T) {
+func TestSlotNoBasedOnRegNo_Execute(t *testing.T) {
 	store.NewStore(1)
 	store.GetStorage().Park("KA-51EZ-1234", "Red")
 	type fields struct {
-		opName string
-		color  string
+		opName    string
+		vehicleNo string
 	}
 	type args struct {
 		argVal string
@@ -127,23 +127,23 @@ func TestSlotNoBasedOnColor_Execute(t *testing.T) {
 		{
 			name: "1",
 			fields: fields{
-				opName: "slot_numbers_for_cars_with_colour",
+				opName: "slot_number_for_registration_number",
 			},
-			args: args{argVal: "Red"},
+			args: args{argVal: "KA-51EZ-1234"},
 			want: "1",
 		},
 		{
 			name: "2",
 			fields: fields{
-				opName: "slot_numbers_for_cars_with_colour",
+				opName: "slot_number_for_registration_number",
 			},
-			args: args{argVal: "White"},
+			args: args{argVal: "KA-AA-1232"},
 			want: "Not Found",
 		},
 		{
 			name: "3",
 			fields: fields{
-				opName: "slot_numbers_for_cars_with_colour",
+				opName: "slot_number_for_registration_number",
 			},
 			args: args{argVal: ""},
 			want: "Invalid args",
@@ -151,12 +151,12 @@ func TestSlotNoBasedOnColor_Execute(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			rbc := &SlotNoBasedOnColor{
-				opName: tt.fields.opName,
-				color:  tt.fields.color,
+			rbc := &SlotNoBasedOnRegNo{
+				opName:    tt.fields.opName,
+				vehicleNo: tt.fields.vehicleNo,
 			}
 			if got := rbc.Execute(tt.args.argVal); got != tt.want {
-				t.Errorf("SlotNoBasedOnColor.Execute() = %v, want %v", got, tt.want)
+				t.Errorf("SlotNoBasedOnRegNo.Execute() = %v, want %v", got, tt.want)
 			}
 		})
 	}

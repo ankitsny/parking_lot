@@ -50,7 +50,7 @@ func (rbc *RegistrationNoBasedOnColor) Execute(argVal string) string {
 	}
 	var out []string
 	for _, slot := range slots {
-		out = append(out, string(slot.GetParkingSpotNo()))
+		out = append(out, slot.GetVehicle().GetVehicleNo())
 	}
 	return strings.Join(out, ", ")
 }

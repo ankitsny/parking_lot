@@ -109,8 +109,9 @@ func TestRegistrationNoBasedOnColor_Parse(t *testing.T) {
 }
 
 func TestRegistrationNoBasedOnColor_Execute(t *testing.T) {
-	store.NewStore(1)
+	store.NewStore(2)
 	store.GetStorage().Park("KA-51EZ-1234", "Red")
+	store.GetStorage().Park("KA-51EZ-1235", "Red")
 	type fields struct {
 		opName string
 		color  string
@@ -130,7 +131,7 @@ func TestRegistrationNoBasedOnColor_Execute(t *testing.T) {
 				opName: "registration_numbers_for_cars_with_colour",
 			},
 			args: args{argVal: "Red"},
-			want: "KA-51EZ-1234",
+			want: "KA-51EZ-1234, KA-51EZ-1235",
 		},
 		{
 			name: "2",

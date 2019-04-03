@@ -42,7 +42,7 @@ func (rbc *RegistrationNoBasedOnColor) Parse(argVal string) error {
 // Execute :
 func (rbc *RegistrationNoBasedOnColor) Execute(argVal string) string {
 	if err := rbc.Parse(argVal); err != nil {
-		return fmt.Sprintf("Invalid args for park command")
+		return fmt.Sprintf("Invalid args for command")
 	}
 	slots, err := store.GetStorage().GetParkingSpotByColor(rbc.color)
 	if err != nil {
@@ -50,7 +50,7 @@ func (rbc *RegistrationNoBasedOnColor) Execute(argVal string) string {
 	}
 	var out []string
 	for _, slot := range slots {
-		out = append(out, slot.GetVehicle().GetVehicleNo())
+		out = append(out, string(slot.GetParkingSpotNo()))
 	}
 	return strings.Join(out, ", ")
 }

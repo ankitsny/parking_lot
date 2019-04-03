@@ -82,3 +82,16 @@ func (pl *ParkingLot) Park(vehicleNo string, color string) (*ParkingSpot, error)
 	pl.parkingSpots[i-1].ParkVehicle(CreateVehicle(color, vehicleNo, "SM"))
 	return pl.parkingSpots[i-1], nil
 }
+
+// GetParkedSpots :
+func (pl *ParkingLot) GetParkedSpots() (ps []*ParkingSpot, err error) {
+	for _, spot := range pl.parkingSpots {
+		if spot.GetVehicle() != nil {
+			ps = append(ps, spot)
+		}
+	}
+	if len(ps) == 0 || ps == nil {
+		return nil, errors.New("Parking lot is empty")
+	}
+	return
+}

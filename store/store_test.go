@@ -60,3 +60,25 @@ func TestGetStorage(t *testing.T) {
 		})
 	}
 }
+
+func TestSetStorage(t *testing.T) {
+	type args struct {
+		s *models.ParkingLot
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			name: "1",
+			args: args{
+				s: nil,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			SetStorage(tt.args.s)
+		})
+	}
+}

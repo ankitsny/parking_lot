@@ -408,3 +408,69 @@ func TestParkingLot_Park(t *testing.T) {
 		})
 	}
 }
+
+func TestParkingLot_GetParkedSpots(t *testing.T) {
+	parkingSpot := generateParingSpot("SM", 1, "0")
+	// vehicle := CreateVehicle("Red", "KA-51EZ-1234", "SM")
+	// (parkingSpot[0]).vehicle = vehicle
+	parkingSpotAfterParked := generateParingSpot("SM", 1, "0")
+	vehicle := CreateVehicle("Red", "KA-51EZ-1234", "SM")
+	(parkingSpotAfterParked[0]).vehicle = vehicle
+	type fields struct {
+		lotID         string
+		address       string
+		parkingSpots  []*ParkingSpot
+		capacity      int
+		nextSpot      int
+		hasEmptySpace bool
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		wantPs  []*ParkingSpot
+		wantErr bool
+	}{
+		{
+			name: "1",
+			fields: fields{
+				address:      "Bangalore",
+				capacity:     1,
+				lotID:        "LOT_1",
+				parkingSpots: parkingSpotAfterParked,
+			},
+			wantPs:  parkingSpotAfterParked,
+			wantErr: false,
+		},
+		{
+			name: "2",
+			fields: fields{
+				address:      "Bangalore",
+				capacity:     1,
+				lotID:        "LOT_1",
+				parkingSpots: parkingSpot,
+			},
+			wantPs:  nil,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			pl := &ParkingLot{
+				lotID:         tt.fields.lotID,
+				address:       tt.fields.address,
+				parkingSpots:  tt.fields.parkingSpots,
+				capacity:      tt.fields.capacity,
+				nextSpot:      tt.fields.nextSpot,
+				hasEmptySpace: tt.fields.hasEmptySpace,
+			}
+			gotPs, err := pl.GetParkedSpots()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ParkingLot.GetParkedSpots() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotPs, tt.wantPs) {
+				t.Errorf("ParkingLot.GetParkedSpots() = %v, want %v", gotPs, tt.wantPs)
+			}
+		})
+	}
+}

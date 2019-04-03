@@ -17,3 +17,8 @@ func NewStore(capacity int) error {
 func GetStorage() *models.ParkingLot {
 	return storage
 }
+
+// SetStorage :
+func SetStorage(s *models.ParkingLot) {
+	storage = s
+}

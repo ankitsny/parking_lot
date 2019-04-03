@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"github.com/anks333/parking_lot/modes"
+)
 
 func main() {
-	fmt.Println("Hello WOrld")
+
+	modes.NewInterActiveMode().Start()
 }

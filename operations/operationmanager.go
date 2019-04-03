@@ -15,7 +15,15 @@ type OperationManager struct {
 // NewOperationManager :
 func NewOperationManager() *OperationManager {
 	opm := &OperationManager{}
-
+	opm.commands = make(map[string]ICommand)
+	// Register all operations here
+	opm.AddOperation(NewCreateParkingLot())
+	opm.AddOperation(NewParkCMD())
+	opm.AddOperation(NewLeaveCMD())
+	opm.AddOperation(NewRegistrationNoBasedOnColorCMD())
+	opm.AddOperation(NewSlotNoBasedOnColorCMD())
+	opm.AddOperation(NewSlotNoBasedOnRegNoCMD())
+	opm.AddOperation(NewStatusCMD())
 	return opm
 }
 
@@ -33,26 +41,26 @@ func (opm *OperationManager) AddOperation(cmd ICommand) {
 
 // Parse :
 func (opm *OperationManager) Parse(input string) error {
+	opm.cOp = ""
 	if input == "" {
 		return errors.New("Input args missing")
 	}
 	argsArray := strings.Fields(input)
 	opm.cOp = argsArray[0]
-	if len(argsArray) == 2 {
-		opm.argVal = argsArray[1]
-	}
+	restArgs := argsArray[1:]
+	opm.argVal = strings.Join(restArgs, " ")
 	return nil
 }
 
 // Execute :
-func (opm *OperationManager) Execute(input string) (string, error) {
+func (opm *OperationManager) Execute(input string) string {
 	// TODO: implement this method
 	if err := opm.Parse(input); err != nil {
-		return "", err
+		return err.Error()
 	}
 	cmd, ok := opm.commands[opm.cOp]
 	if !ok {
-		return "", errors.New("Invalid Operation")
+		return "Invalid Operation"
 	}
 	return cmd.Execute(opm.argVal)
 }

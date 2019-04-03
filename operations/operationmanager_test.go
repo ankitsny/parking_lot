@@ -10,13 +10,25 @@ import (
 )
 
 func TestNewOperationManager(t *testing.T) {
+	opm := &OperationManager{
+		commands: make(map[string]ICommand),
+	}
+	opm.commands = make(map[string]ICommand)
+	// Register all operations here
+	opm.AddOperation(NewCreateParkingLot())
+	opm.AddOperation(NewParkCMD())
+	opm.AddOperation(NewLeaveCMD())
+	opm.AddOperation(NewRegistrationNoBasedOnColorCMD())
+	opm.AddOperation(NewSlotNoBasedOnColorCMD())
+	opm.AddOperation(NewSlotNoBasedOnRegNoCMD())
+	opm.AddOperation(NewStatusCMD())
 	tests := []struct {
 		name string
 		want *OperationManager
 	}{
 		{
 			name: "New Operation Manager",
-			want: &OperationManager{},
+			want: opm,
 		},
 	}
 	for _, tt := range tests {
@@ -86,12 +98,12 @@ type fakecmd struct {
 }
 
 // Execute :
-func (fcmd *fakecmd) Execute(argsVal string) (string, error) {
+func (fcmd *fakecmd) Execute(argsVal string) string {
 
 	if err := fcmd.Parse(argsVal); err != nil {
-		return "", err
+		return err.Error()
 	}
-	return fmt.Sprintf("Created a parking lot with %v slots", fcmd.capacity), nil
+	return fmt.Sprintf("Created a parking lot with %v slots", fcmd.capacity)
 }
 
 // GetName :
@@ -127,11 +139,10 @@ func TestOperationManager_Execute(t *testing.T) {
 		input string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    string
-		wantErr bool
+		name   string
+		fields fields
+		args   args
+		want   string
 	}{
 		{
 			name: "Execute Invalid",
@@ -143,8 +154,7 @@ func TestOperationManager_Execute(t *testing.T) {
 			args: args{
 				input: "create_parking_lotttt 6", // Invalid Command
 			},
-			want:    "",
-			wantErr: true,
+			want: "Invalid Operation",
 		},
 		{
 			name: "Execute Invalid",
@@ -156,8 +166,7 @@ func TestOperationManager_Execute(t *testing.T) {
 			args: args{
 				input: "create_parking_lot abc", // Invalid Command
 			},
-			want:    "",
-			wantErr: true,
+			want: "Invalid auguments for create_parking_lot",
 		},
 		{
 			name: "Execute Invalid",
@@ -169,8 +178,7 @@ func TestOperationManager_Execute(t *testing.T) {
 			args: args{
 				input: "", // Invalid Command
 			},
-			want:    "",
-			wantErr: true,
+			want: "Input args missing",
 		},
 		{
 			name: "Execute",
@@ -182,8 +190,7 @@ func TestOperationManager_Execute(t *testing.T) {
 			args: args{
 				input: "create_parking_lot 6",
 			},
-			want:    fmt.Sprintf("Created a parking lot with %v slots", 6),
-			wantErr: false,
+			want: fmt.Sprintf("Created a parking lot with %v slots", 6),
 		},
 	}
 	for _, tt := range tests {
@@ -193,11 +200,7 @@ func TestOperationManager_Execute(t *testing.T) {
 				argVal:   tt.fields.argVal,
 				commands: tt.fields.commands,
 			}
-			got, err := opm.Execute(tt.args.input)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("OperationManager.Execute() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
+			got := opm.Execute(tt.args.input)
 			if got != tt.want {
 				t.Errorf("OperationManager.Execute() = %v, want %v", got, tt.want)
 			}

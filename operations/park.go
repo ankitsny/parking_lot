@@ -31,6 +31,8 @@ func (p *Park) GetName() string {
 
 // Parse :
 func (p *Park) Parse(argVal string) error {
+	p.color = ""
+	p.vehicleNo = ""
 	args := strings.Split(argVal, " ")
 	if len(args) != 2 {
 		return errors.New("Invalid args for park")
@@ -43,6 +45,7 @@ func (p *Park) Parse(argVal string) error {
 
 // Execute :
 func (p *Park) Execute(argVal string) string {
+	fmt.Println("Park", argVal)
 	if err := p.Parse(argVal); err != nil {
 		return fmt.Sprintf("Invalid args for park command")
 	}

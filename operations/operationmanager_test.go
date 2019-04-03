@@ -154,7 +154,14 @@ func TestOperationManager_Execute(t *testing.T) {
 			args: args{
 				input: "create_parking_lotttt 6", // Invalid Command
 			},
-			want: "Invalid Operation",
+			// INFO: Dont Chnage the indentation
+			want: fmt.Sprintln(`Available operations are: 
+			1. create_parking_lot SIZE
+			2. park VEHICLE_NO COLOR
+			3. leave VEHICLE_NO
+			4. registration_numbers_for_cars_with_colour COLOR
+			5. slot_numbers_for_cars_with_colour COLOR
+			6. slot_number_for_registration_number VEHICLE_NO`),
 		},
 		{
 			name: "Execute Invalid",

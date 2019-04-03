@@ -2,6 +2,7 @@ package operations
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/anks333/parking_lot/store"
@@ -62,7 +63,13 @@ func (opm *OperationManager) Execute(input string) string {
 	}
 	cmd, ok := opm.commands[opm.cOp]
 	if !ok {
-		return "Invalid Operation"
+		return strings.TrimLeft(fmt.Sprintln(`Available operations are: 
+			1. create_parking_lot SIZE
+			2. park VEHICLE_NO COLOR
+			3. leave VEHICLE_NO
+			4. registration_numbers_for_cars_with_colour COLOR
+			5. slot_numbers_for_cars_with_colour COLOR
+			6. slot_number_for_registration_number VEHICLE_NO`), "\t")
 	}
 
 	if opm.cOp != "create_parking_lot" && store.GetStorage() == nil {

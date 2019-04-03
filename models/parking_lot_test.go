@@ -177,6 +177,7 @@ func TestParkingLot_GetNearestParkingSpot(t *testing.T) {
 
 func TestParkingLot_GetParkingSpotByVehicleNo(t *testing.T) {
 	parkingSpot := generateParingSpot("SM", 1, "0")
+	parkingSpotWithoutVehicle := generateParingSpot("SM", 1, "0")
 	vehicle := CreateVehicle("Red", "KA-51EZ-1234", "SM")
 	(parkingSpot[0]).vehicle = vehicle
 	type fields struct {
@@ -218,6 +219,20 @@ func TestParkingLot_GetParkingSpotByVehicleNo(t *testing.T) {
 				capacity:      1,
 				hasEmptySpace: false,
 				parkingSpots:  parkingSpot,
+			},
+			args: args{
+				vNo: "KA-51EZ-0001",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "Vehicle is not initialized",
+			fields: fields{
+				address:       "Bangalore",
+				capacity:      1,
+				hasEmptySpace: false,
+				parkingSpots:  parkingSpotWithoutVehicle,
 			},
 			args: args{
 				vNo: "KA-51EZ-0001",

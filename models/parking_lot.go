@@ -51,7 +51,7 @@ func (pl *ParkingLot) GetNearestParkingSpot() (int, error) {
 // if the vehicle is not parked in the parking lot then returns error
 func (pl *ParkingLot) GetParkingSpotByVehicleNo(vNo string) (*ParkingSpot, error) {
 	for _, spot := range pl.parkingSpots {
-		if spot.GetVehicle().GetVehicleNo() == vNo {
+		if spot.GetVehicle() != nil && spot.GetVehicle().GetVehicleNo() == vNo {
 			return spot, nil
 		}
 	}
@@ -63,7 +63,7 @@ func (pl *ParkingLot) GetParkingSpotByVehicleNo(vNo string) (*ParkingSpot, error
 func (pl *ParkingLot) GetParkingSpotByColor(color string) ([]*ParkingSpot, error) {
 	var spots []*ParkingSpot
 	for _, spot := range pl.parkingSpots {
-		if spot.GetVehicle().GetColor() == color {
+		if spot.GetVehicle() != nil && spot.GetVehicle().GetColor() == color {
 			spots = append(spots, spot)
 		}
 	}

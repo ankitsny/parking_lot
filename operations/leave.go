@@ -30,7 +30,7 @@ func (l *Leave) GetName() string {
 // Parse :
 func (l *Leave) Parse(argVal string) error {
 	args := strings.Split(argVal, " ")
-	if len(args) != 1 {
+	if args[0] == "" {
 		return errors.New("Invalid args for leave")
 	}
 	l.vehicleNo = args[0]
